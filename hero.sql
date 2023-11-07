@@ -188,12 +188,25 @@ WHERE h.is_active = true;
 /*6	Create new branch named "feat/select-heroes-archers"
 
 	Provide a list of heroes classified as archers.*/
-    SELECT hero_name
+SELECT hero_name
 FROM Hero
 WHERE class_id IN (
-    SELECT class_id
-    FROM Class
-    WHERE class_name LIKE '%Archer%'
+SELECT class_id
+FROM Class
+WHERE class_name LIKE '%Archer%'
 );
+
+/*7 	Create new branch named "feat/select-avg-playerlevel-per-class"
+
+	Retrieve the average player level for each class,
+	arranging them in descending order from the highest level to the lowest.*/
+
+SELECT c.class_name, AVG(p.player_level) AS average_level
+FROM Class c
+LEFT JOIN Hero h ON c.class_id = h.class_id
+LEFT JOIN Player p ON h.hero_id = p.hero_id
+GROUP BY c.class_name
+ORDER BY average_level DESC;
+
 
 
